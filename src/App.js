@@ -85,8 +85,8 @@ function App() {
                     ref={provided.innerRef}
                     style={{
                       background: snapshot.isDraggingOver
-                        ? "#535353"
-                        : "#9a9696",
+                        ? "lightblue"
+                        : "lightgrey",
                       padding: 4,
                       width: 250,
                       minHeight: 500
@@ -111,8 +111,8 @@ function App() {
                                   margin: "0 0 8px 0",
                                   minHeight: "50px",
                                   backgroundColor: snapshot.isDragging
-                                    ? "#ff5a00"
-                                    : "#ffffff",
+                                    ? "#263B4A"
+                                    : "#456C86",
                                   color: "white",
                                   ...provided.draggableProps.style
                                 }}
