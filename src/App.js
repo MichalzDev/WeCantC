@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
-import "src/style/style.scss";
+
 const itemsFromBackend = [
   { id: uuid(), content: "First task" },
   { id: uuid(), content: "Second task" }
@@ -111,8 +111,8 @@ function App() {
                                   margin: "0 0 8px 0",
                                   minHeight: "50px",
                                   backgroundColor: snapshot.isDragging
-                                    ? "mainOrange"
-                                    : "#ff8948",
+                                    ? "#ff5a00"
+                                    : "#ffffff",
                                   color: "white",
                                   ...provided.draggableProps.style
                                 }}
