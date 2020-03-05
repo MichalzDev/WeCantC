@@ -1,34 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";
 
-const itemsFromBackend = [
-  { id: uuid(), content: "First task" },
-  { id: uuid(), content: "Second task" }
+const BacklogItems = [
+  { id: uuid(), content: "1 task" }
 ];
+const ToDoItems = [];
+const InProgressItems = [];
+const DoneItems = [];
 
 const columnsFromBackend = {
   [uuid()]: {
     name: "Backlog",
-    items: itemsFromBackend
+    items: BacklogItems
   },
   [uuid()]: {
     name: "To do",
-    items: []
+    items: ToDoItems
   },
   [uuid()]: {
     name: "In progress",
-    items: []
+    items: InProgressItems
   },
   [uuid()]: {
     name: "Done",
-    items: []
+    items: DoneItems
   }
 };
 
 const onDragEnd = (result, columns, setColumns) => {
   if(!result.destination) return;
+  
   const { source, destination } = result;
+		console.log(result.id);
   if(source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
     const destColumn = columns[destination.droppableId];
@@ -63,9 +67,26 @@ const onDragEnd = (result, columns, setColumns) => {
   }
 };
 
+
+function addTask(col){
+	var len = BacklogItems.length + ToDoItems.length + InProgressItems.length + DoneItems.length + 1;
+	if (col === "Backlog"){
+		if (BacklogItems.length<5) BacklogItems.push({ id: uuid(), content: len+" task" });
+	}
+	else if (col === "To do"){
+		if (ToDoItems.length<5) ToDoItems.push({ id: uuid(), content: len+" task" });
+	}
+	else if (col === "In progress"){
+		if (InProgressItems.length<5) InProgressItems.push({ id: uuid(), content: len+" task" });
+	}
+	else if (DoneItems.length<5){
+		DoneItems.push({ id: uuid(), content: len+" task" });
+	}
+}
+
 function App() {
   const [columns, setColumns] = useState(columnsFromBackend);
-
+  
   return (
     <div
       className="App"
@@ -73,14 +94,19 @@ function App() {
     >
       <DragDropContext onDragEnd={result => onDragEnd(result, columns, setColumns)}>
         {Object.entries(columns).map(([id, column]) => {
-          return (
+          
+		  return (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <h2>{column.name}</h2>
+			  
+				<button id={column.name} onClick={() => addTask(column.name)} > Add Task </button>
+			  
+			  
               <div style={{ margin: 8 }}>
             <Droppable droppableId={id} key={id}>
               {(provided, snapshot) => {
                 return (
-                  <div
+                  <div id={column.name}
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                     style={{
@@ -93,7 +119,8 @@ function App() {
                     }}
                   >
                     {column.items.map((item, index) => {
-                      return (
+                      
+						return (
                         <Draggable
                           key={item.id}
                           draggableId={item.id}
