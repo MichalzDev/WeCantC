@@ -23,7 +23,7 @@ class ActionButton extends React.Component {
   };
 
   handleInputChange = e => {
-    this.setstate({
+    this.setState({
       content: e.target.value
     });
   };

@@ -14,11 +14,11 @@ const Task = ({ content }) => {
 };
 
 const styles = {
-    taskContainer: {
-        backgroundColor: '#ff8948',
-        color: 'white',
-        marginBottom: 8
-    }
-}
+  taskContainer: {
+    backgroundColor: "#ff8948",
+    color: "white",
+    marginBottom: 8
+  }
+};
 
 export default Task;
