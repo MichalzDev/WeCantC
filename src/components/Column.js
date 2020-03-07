@@ -1,13 +1,15 @@
 import React from "react";
 import Task from "./Task";
+import ActionButton from "./ActionButton";
 
 const ColumnList = ({ title, tasks }) => {
   return (
     <div style={styles.columnContainer}>
       <h4>{title}</h4>
       {tasks.map(task => (
-        <Task content={task.content} />
+        <Task key={task.id} content={task.content} />
       ))}
+      <ActionButton />
     </div>
   );
 };
@@ -18,6 +20,7 @@ const styles = {
     borderRadius: 3,
     width: 300,
     padding: 8,
+    height: "100%",
     marginRight: 8
   }
 };

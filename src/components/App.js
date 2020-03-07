@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Column from './Column';
 import { connect } from 'react-redux';
+import ActionButton from './ActionButton';
 
 class App extends Component {
   render() {
@@ -11,8 +12,9 @@ class App extends Component {
         <h2>Hello world</h2>
         <div style={styles.columnsContainer}>
         {columns.map(column => (
-          <Column title={column.title} tasks={column.tasks} />
+          <Column key={column.id} title={column.title} tasks={column.tasks} />
         ))}
+        <ActionButton addColumn />
         </div>
       </div>
     );
