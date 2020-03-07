@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import TrelloList from './TrelloList';
+import Column from './Column';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <h2>Hello world</h2>
-        <TrelloList />
+        <Column title="test" />
       </div>
     )
   }
