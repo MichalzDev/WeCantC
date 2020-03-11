@@ -1,33 +1,33 @@
 import { CONSTANTS } from '../actions';
 
 let columnID = 2;
-let taskID = 2;
+let taskID = 4;
 
 const initialState = [
     {
-        id: 0,
+        id: `column-${0}`,
         title: "test title",
         tasks: [
             {
-                id: 0,
+                id: `task-${0}`,
                 content: "content Test 1"
             },
             {
-                id: 1,
+                id: `task-${1}`,
                 content: "content Test 2"
             }
         ]
     },
     {
-        id: 1,
+        id: `column-${1}`,
         title: "test title",
         tasks: [
             {
-                id: 0,
+                id: `task-${2}`,
                 content: "content Test 1"
             },
             {
-                id: 1,
+                id: `task-${3}`,
                 content: "content Test 2"
             }
         ]
@@ -40,7 +40,7 @@ const columnReducer = (state = initialState, action) => {
             const newColumn = {
                 title: action.payload,
                 tasks: [],
-                id: columnID
+                id: `column-${columnID}`
             }
             columnID += 1;
             return [...state, newColumn];
@@ -48,7 +48,7 @@ const columnReducer = (state = initialState, action) => {
         case CONSTANTS.ADD_TASK:
             const newTask = {
                 content: action.payload.content,
-                id: taskID
+                id: `task-${taskID}`
             };
             taskID += 1;
 
