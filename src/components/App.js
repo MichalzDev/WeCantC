@@ -11,7 +11,7 @@ class App extends Component {
         <h2>Hello world</h2>
         <div style={styles.columnsContainer}>
           {columns.map(column => (
-            <Column key={column.id} title={column.title} tasks={column.tasks} />
+            <Column columnID={column.id} key={column.id} title={column.title} tasks={column.tasks} />
           ))}
           <ActionButton addColumn />
         </div>
