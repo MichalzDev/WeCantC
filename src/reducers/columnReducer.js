@@ -72,18 +72,42 @@ const columnReducer = (state = initialState, action) => {
         droppableIdEnd,
         droppableIndexStart,
         droppableIndexEnd,
-        draggableId
+        draggableId,
+        type
       } = action.payload;
       const newState = [...state];
 
+      // dragging columns around
+      if(type === "column") {
+          const column = newState.splice(droppableIndexStart, 1)
+          newState.splice(droppableIndexEnd, 0, ...column);
+          return newState;
+      }
+
       // destination: same column
+
       if (droppableIdStart === droppableIdEnd) {
         const column = state.find(column => droppableIdStart === column.id);
         const task = column.tasks.splice(droppableIndexStart, 1);
         column.tasks.splice(droppableIndexEnd, 0, ...task);
       }
 
-      
+      // destination: other column
+
+      if (droppableIdStart !== droppableIdEnd) {
+          // find the column where drag happened
+          const columnStart = state.find(column => droppableIdStart === column.id)
+          
+          // pull out the card from this column
+          const task = columnStart.tasks.splice(droppableIndexStart, 1);
+
+          // find the column where drag ended
+          const columnEnd = state.find(column => droppableIdEnd === column.id);
+
+          // put the task into a new column
+          columnEnd.tasks.splice(droppableIndexEnd, 0, ...task)
+      }
+
 
       return newState;
 

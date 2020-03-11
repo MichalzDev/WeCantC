@@ -1,34 +1,44 @@
 import React from "react";
 import Task from "./Task";
 import ActionButton from "./ActionButton";
-import { Droppable } from "react-beautiful-dnd";
+import { Droppable, Draggable } from "react-beautiful-dnd";
+import styled from "styled-components";
 
-const ColumnList = ({ title, tasks, columnID }) => {
+const ColumnContainer = styled.div`
+  background-color: #ff8948;
+  border-radius: 3px;
+  width: 300;
+  padding: 8px;
+  height: 100%;
+  margin-right: 8px;
+`;
+
+const ColumnList = ({ title, tasks, columnID, index }) => {
   return (
-    <Droppable droppableId={String(columnID)}>
+    <Draggable draggableId={String(columnID)} index={index}>
       {provided => (
-        <div {...provided.droppableProps} ref={provided.innerRef} style={styles.columnContainer}>
-          <h4>{title}</h4>
-          {tasks.map((task, index) => (
-            <Task id={task.id} index={index} key={task.id} content={task.content} />
-          ))}
-          <ActionButton columnID={columnID} />
-          {provided.placeholder}
-        </div>
+        <ColumnContainer {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps}>
+          <Droppable droppableId={String(columnID)}>
+            {provided => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                <h4>{title}</h4>
+                {tasks.map((task, index) => (
+                  <Task
+                    id={task.id}
+                    index={index}
+                    key={task.id}
+                    content={task.content}
+                  />
+                ))}
+                {provided.placeholder}
+                <ActionButton columnID={columnID} />
+              </div>
+            )}
+          </Droppable>
+        </ColumnContainer>
       )}
-    </Droppable>
+    </Draggable>
   );
-};
-
-const styles = {
-  columnContainer: {
-    backgroundColor: "#9a9696",
-    borderRadius: 3,
-    width: 300,
-    padding: 8,
-    height: "100%",
-    marginRight: 8
-  }
 };
 
 export default ColumnList;

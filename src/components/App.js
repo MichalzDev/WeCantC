@@ -2,15 +2,20 @@ import React, { Component } from "react";
 import Column from "./Column";
 import { connect } from "react-redux";
 import ActionButton from "./ActionButton";
-import { DragDropContext } from 'react-beautiful-dnd';
-import {sort} from '../actions';
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { sort } from "../actions";
+import styled from "styled-components";
+
+const ColumnsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 class App extends Component {
+  onDragEnd = result => {
+    const { destination, source, draggableId, type } = result;
 
-  onDragEnd = (result) => {
-    const {destination, source, draggableId} = result;
-
-    if(!destination) {
+    if (!destination) {
       return;
     }
 
@@ -20,7 +25,8 @@ class App extends Component {
         destination.droppableId,
         source.index,
         destination.index,
-        draggableId
+        draggableId,
+        type
       )
     );
   };
@@ -29,27 +35,34 @@ class App extends Component {
     const { columns } = this.props;
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-      <div>
-        <h2>Hello world</h2>
-        <div style={styles.columnsContainer}>
-          {columns.map(column => (
-            <Column columnID={column.id} key={column.id} title={column.title} tasks={column.tasks} />
-          ))}
-          <ActionButton addColumn />
+        <div>
+          <h2>Hello world</h2>
+          <Droppable
+            droppableId="all-columns"
+            direction="horizontal"
+            type="column"
+          >
+            {provided => (
+              <ColumnsContainer {...provided.droppableProps} ref={provided.innerRef}>
+                {columns.map((column, index) => (
+                  <Column
+                    columnID={column.id}
+                    key={column.id}
+                    title={column.title}
+                    tasks={column.tasks}
+                    index={index}
+                  />
+                ))}
+                {provided.placeholder}
+                <ActionButton addColumn />
+              </ColumnsContainer>
+            )}
+          </Droppable>
         </div>
-      </div>
       </DragDropContext>
     );
   }
 }
-
-const styles = {
-  columnsContainer: {
-    display: "flex",
-    flexDirection: "row",
-    marginRight: 8
-  }
-};
 
 const mapStateToProps = state => ({
   columns: state.columns
