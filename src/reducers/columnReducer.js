@@ -1,74 +1,95 @@
-import {CONSTANTS} from '../actions';
+import { CONSTANTS } from "../actions";
 
 let columnID = 2;
-let taskID = 2;
+let taskID = 4;
 
 const initialState = [
-    {
-        id: 0,
-        title: "test title",
-        tasks: [
-            {
-                id: 0,
-                content: "content Test 1"
-            },
-            {
-                id: 1,
-                content: "content Test 2"
-            }
-        ]
-    },
-    {
-        id: 1,
-        title: "test title",
-        tasks: [
-            {
-                id: 0,
-                content: "content Test 1"
-            },
-            {
-                id: 1,
-                content: "content Test 2"
-            }
-        ]
-    }
-]
+  {
+    id: `column-${0}`,
+    title: "test title",
+    tasks: [
+      {
+        id: `task-${0}`,
+        content: "content Test 1"
+      },
+      {
+        id: `task-${1}`,
+        content: "content Test 2"
+      }
+    ]
+  },
+  {
+    id: `column-${1}`,
+    title: "test title",
+    tasks: [
+      {
+        id: `task-${2}`,
+        content: "content Test 1"
+      },
+      {
+        id: `task-${3}`,
+        content: "content Test 2"
+      }
+    ]
+  }
+];
 
 const columnReducer = (state = initialState, action) => {
-    switch(action.type) {
-
-case CONSTANTS.ADD_COLUMN:
-    const newColumn = {
+  switch (action.type) {
+    case CONSTANTS.ADD_COLUMN:
+      const newColumn = {
         title: action.payload,
         tasks: [],
-        id: columnID
-    }
-    columnID += 1
-    return [...state, newColumn];
+        id: `column-${columnID}`
+      };
+      columnID += 1;
+      return [...state, newColumn];
 
-    case CONSTANTS.ADD_TASK:
-        const newTask = {
-            content: action.payload.content,
-            id: taskID
+    case CONSTANTS.ADD_TASK: {
+      const newTask = {
+        content: action.payload.content,
+        id: `task-${taskID}`
+      };
+      taskID += 1;
+
+      const newState = state.map(column => {
+        if (column.id === action.payload.columnID) {
+          return {
+            ...column,
+            tasks: [...column.tasks, newTask]
+          };
+        } else {
+          return column;
         }
-        taskID += 1
+      });
 
-        const newState = state.map(column => {
-            if(column.id === action.payload.columnID) {
-                return {
-                    ...column,
-                    tasks: [...column.tasks, newTask]
-                }
-            } else {
-                return column;
-            }
-        })
-
-        return newState;
-
-        default:
-            return state;
+      return newState;
     }
-}
+
+    case CONSTANTS.DRAG_HAPPENED:
+      const {
+        droppableIdStart,
+        droppableIdEnd,
+        droppableIndexStart,
+        droppableIndexEnd,
+        draggableId
+      } = action.payload;
+      const newState = [...state];
+
+      // destination: same column
+      if (droppableIdStart === droppableIdEnd) {
+        const column = state.find(column => droppableIdStart === column.id);
+        const task = column.tasks.splice(droppableIndexStart, 1);
+        column.tasks.splice(droppableIndexEnd, 0, ...task);
+      }
+
+      
+
+      return newState;
+
+    default:
+      return state;
+  }
+};
 
 export default columnReducer;

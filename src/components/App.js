@@ -2,11 +2,33 @@ import React, { Component } from "react";
 import Column from "./Column";
 import { connect } from "react-redux";
 import ActionButton from "./ActionButton";
+import { DragDropContext } from 'react-beautiful-dnd';
+import {sort} from '../actions';
 
 class App extends Component {
+
+  onDragEnd = (result) => {
+    const {destination, source, draggableId} = result;
+
+    if(!destination) {
+      return;
+    }
+
+    this.props.dispatch(
+      sort(
+        source.droppableId,
+        destination.droppableId,
+        source.index,
+        destination.index,
+        draggableId
+      )
+    );
+  };
+
   render() {
     const { columns } = this.props;
     return (
+      <DragDropContext onDragEnd={this.onDragEnd}>
       <div>
         <h2>Hello world</h2>
         <div style={styles.columnsContainer}>
@@ -16,6 +38,7 @@ class App extends Component {
           <ActionButton addColumn />
         </div>
       </div>
+      </DragDropContext>
     );
   }
 }
