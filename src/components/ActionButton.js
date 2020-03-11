@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import { connect } from 'react-redux';
 import { addColumn, addTask } from '../actions';
 
+
 class ActionButton extends React.Component {
   state = {
     formOpen: false,
@@ -31,13 +32,13 @@ class ActionButton extends React.Component {
   };
 
   handleAddColumn = () => {
-    const { dispatch } = this.props;
-    const { content } = this.state;
+    const {dispatch} = this.props;
+    const {content} = this.state;
 
-    if (content) {
-      this.setState = {
+    if(content) {
+      this.setState({
         content: ""
-      }
+      })
       dispatch(addColumn(content))
     }
 
@@ -49,12 +50,11 @@ class ActionButton extends React.Component {
     const {content} = this.state;
 
     if(content) {
-      this.setState = {
+      this.setState({
         content: ""
-      }
-      dispatch(addTask(columnID, content));
+      })
+      dispatch(addTask(columnID, content))
     }
-
   }
 
   renderAddButton = () => {

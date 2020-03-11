@@ -2,19 +2,12 @@ import React, { Component } from "react";
 import Column from "./Column";
 import { connect } from "react-redux";
 import ActionButton from "./ActionButton";
-import { DragDropContext } from 'react-beautiful-dnd';
 
 class App extends Component {
-
-  onDragEnd = () => {
-    //rendering logic
-  }
-
   render() {
     const { columns } = this.props;
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-      <div className="App">
+      <div>
         <h2>Hello world</h2>
         <div style={styles.columnsContainer}>
           {columns.map(column => (
@@ -22,8 +15,7 @@ class App extends Component {
           ))}
           <ActionButton addColumn />
         </div>
-      </div>      
-      </DragDropContext>
+      </div>
     );
   }
 }

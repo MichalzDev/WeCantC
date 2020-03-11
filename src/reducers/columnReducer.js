@@ -1,33 +1,33 @@
-import { CONSTANTS } from '../actions';
+import {CONSTANTS} from '../actions';
 
 let columnID = 2;
-let taskID = 4;
+let taskID = 2;
 
 const initialState = [
     {
-        id: `column-${0}`,
+        id: 0,
         title: "test title",
         tasks: [
             {
-                id: `task-${0}`,
+                id: 0,
                 content: "content Test 1"
             },
             {
-                id: `task-${1}`,
+                id: 1,
                 content: "content Test 2"
             }
         ]
     },
     {
-        id: `column-${1}`,
+        id: 1,
         title: "test title",
         tasks: [
             {
-                id: `task-${2}`,
+                id: 0,
                 content: "content Test 1"
             },
             {
-                id: `task-${3}`,
+                id: 1,
                 content: "content Test 2"
             }
         ]
@@ -36,34 +36,35 @@ const initialState = [
 
 const columnReducer = (state = initialState, action) => {
     switch(action.type) {
-        case CONSTANTS.ADD_COLUMN:
-            const newColumn = {
-                title: action.payload,
-                tasks: [],
-                id: `column-${columnID}`
-            }
-            columnID += 1;
-            return [...state, newColumn];
 
-        case CONSTANTS.ADD_TASK:
-            const newTask = {
-                content: action.payload.content,
-                id: `task-${taskID}`
-            };
-            taskID += 1;
+case CONSTANTS.ADD_COLUMN:
+    const newColumn = {
+        title: action.payload,
+        tasks: [],
+        id: columnID
+    }
+    columnID += 1
+    return [...state, newColumn];
 
-            const newState = state.map(column => {
-                if(column.id === action.payload.columnID) {
-                    return {
-                        ...column,
-                        tasks: [...column.tasks, newTask]
-                    }
-                } else {
-                    return column;
+    case CONSTANTS.ADD_TASK:
+        const newTask = {
+            content: action.payload.content,
+            id: taskID
+        }
+        taskID += 1
+
+        const newState = state.map(column => {
+            if(column.id === action.payload.columnID) {
+                return {
+                    ...column,
+                    tasks: [...column.tasks, newTask]
                 }
-            });
+            } else {
+                return column;
+            }
+        })
 
-            return newState;
+        return newState;
 
         default:
             return state;
