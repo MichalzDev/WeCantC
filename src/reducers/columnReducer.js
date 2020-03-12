@@ -1,36 +1,28 @@
 import { CONSTANTS } from "../actions";
 
-let columnID = 2;
-let taskID = 4;
+let columnID = 4;
+let taskID = 0;
 
 const initialState = [
   {
     id: `column-${0}`,
-    title: "test title",
-    tasks: [
-      {
-        id: `task-${0}`,
-        content: "content Test 1"
-      },
-      {
-        id: `task-${1}`,
-        content: "content Test 2"
-      }
-    ]
+    title: "Backlog",
+    tasks: []
   },
   {
     id: `column-${1}`,
-    title: "test title",
-    tasks: [
-      {
-        id: `task-${2}`,
-        content: "content Test 1"
-      },
-      {
-        id: `task-${3}`,
-        content: "content Test 2"
-      }
-    ]
+    title: "To do",
+    tasks: []
+  },
+  {
+    id: `column-${2}`,
+    title: "In progress",
+    tasks: []
+  },
+  {
+    id: `column-${3}`,
+    title: "Done",
+    tasks: []
   }
 ];
 

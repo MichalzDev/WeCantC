@@ -13,7 +13,14 @@ const ColumnContainer = styled.div`
   margin-right: 8px;
 `;
 
-const ColumnList = ({ title, tasks, columnID, index }) => {
+const TitleContainer = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+text-transform: uppercase;
+`;
+
+const ColumnList = ({ title, tasks, columnID, index, maxTasksNumber = 3 }) => {
   return (
     <Draggable draggableId={String(columnID)} index={index}>
       {provided => (
@@ -21,7 +28,10 @@ const ColumnList = ({ title, tasks, columnID, index }) => {
           <Droppable droppableId={String(columnID)}>
             {provided => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
+                <TitleContainer>
                 <h4>{title}</h4>
+                <h6>{maxTasksNumber} {maxTasksNumber > 1 ? 'tasks' : 'task'} left</h6>  
+                </TitleContainer>           
                 {tasks.map((task, index) => (
                   <Task
                     id={task.id}
