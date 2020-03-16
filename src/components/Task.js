@@ -9,10 +9,7 @@ import Form from "./Form";
 import { editTask, deleteTask } from "../actions";
 import { connect } from "react-redux";
 import Button from "./Button";
-
-const Task = React.memo(({ content, id, columnID, index, dispatch }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [taskContent, setTaskContent] = useState(content);
+import { useSpring, animated } from 'react-spring';
 
   const TaskContainer = styled.div`
     margin: 0 0 8px 0;
@@ -51,6 +48,16 @@ const Task = React.memo(({ content, id, columnID, index, dispatch }) => {
     }
   `;
 
+  const Task = React.memo(({ content, id, columnID, index, dispatch }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [taskContent, setTaskContent] = useState(content);
+
+    const props = useSpring({
+      opacity: 1,
+      from: { opacity: 0 },
+      config: { duration: 400 }
+    });
+
   const closeForm = e => {
     console.log("clicked");
     setIsEditing(false);
@@ -80,6 +87,7 @@ const Task = React.memo(({ content, id, columnID, index, dispatch }) => {
 
   const renderTask = () => {
     return (
+      <animated.div style={props}>
       <Draggable draggableId={String(id)} index={index}>
         {provided => (
           <TaskContainer
@@ -105,6 +113,7 @@ const Task = React.memo(({ content, id, columnID, index, dispatch }) => {
           </TaskContainer>
         )}
       </Draggable>
+      </animated.div>
     );
   };
 

@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import Column from "./Column";
 import { connect } from "react-redux";
 import Create from "./Create";

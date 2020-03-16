@@ -4,59 +4,60 @@ import Icon from "@material-ui/core/Icon";
 import Textarea from "react-textarea-autosize";
 import Card from "@material-ui/core/Card";
 
-const Form = React.memo(({ addColumn, content = "", onChange, closeForm, children}) => {
+const Container = styled.div`
+  width: 284px;
+  margin-bottom: 8px;
+`;
 
-  const placeholder = addColumn
-    ? "Enter column name..."
-    : "Enter a task description...";
+const StyledCard = styled(Card)`
+  min-height: 85px;
+  padding: 6px 8px 2px;
+`;
 
-  const Container = styled.div`
-    width: 300px;
-    margin-bottom: 8px;
-  `;
+const StyledTextArea = styled(Textarea)`
+  resize: none;
+  width: 100%;
+  overflow: hidden;
+  outline: none;
+  border: none;
+`;
 
-  const StyledCard = styled(Card)`
-    min-height: 85px;
-    padding: 6px 8px 2px;
-  `;
+const ButtonContainer = styled.div`
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+`;
 
-  const StyledTextArea = styled(Textarea)`
-    resize: none;
-    width: 100%;
-    overflow: hidden;
-    outline: none;
-    border: none;
-  `;
+const StyledIcon = styled(Icon)`
+  margin-left: 8px;
+  cursor: pointer;
+`;
 
-  const ButtonContainer = styled.div`
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    margin-left: 8px;
-  `;
+const Form = React.memo(
+  ({ addColumn, content = "", onChange, closeForm, children }) => {
+    const placeholder = addColumn
+      ? "Enter column name..."
+      : "Enter a task description...";
 
-  const StyledIcon = styled(Icon)`
-    margin-left: 8px;
-    cursor: pointer;
-  `;
-
-  return (
-    <Container>
-      <StyledCard>
-        <StyledTextArea
-          placeholder={placeholder}
-          autoFocus
-          value={content}
-          onChange={e => onChange(e)}
-          onBlur={closeForm}
-        />
-      </StyledCard>
-      <ButtonContainer>
-        {children}
-        <StyledIcon onMouseDown={closeForm}>close</StyledIcon>
-      </ButtonContainer>
-    </Container>
-  );
-});
+    return (
+      <Container>
+        <StyledCard>
+          <StyledTextArea
+            placeholder={placeholder}
+            autoFocus
+            value={content}
+            onChange={e => onChange(e)}
+            onBlur={closeForm}
+          />
+        </StyledCard>
+        <ButtonContainer>
+          {children}
+          <StyledIcon onMouseDown={closeForm}>close</StyledIcon>
+        </ButtonContainer>
+      </Container>
+    );
+  }
+);
 
 export default Form;

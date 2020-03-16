@@ -64,7 +64,6 @@ const columnReducer = (state = initialState, action) => {
         droppableIdEnd,
         droppableIndexStart,
         droppableIndexEnd,
-        draggableId,
         type
       } = action.payload;
       const newState = [...state];
@@ -132,7 +131,25 @@ const columnReducer = (state = initialState, action) => {
         }
       });
     }
-    
+
+    case CONSTANTS.EDIT_COLUMN_TITLE: {
+      const { columnID, newTitle } = action.payload;
+      return state.map(column => {
+        if (column.id === columnID) {
+          column.title = newTitle;
+          return column;
+        } else {
+          return column;
+        }
+      });
+    }
+
+    case CONSTANTS.DELETE_COLUMN: {
+      const { columnID } = action.payload;
+      return state.filter(column =>
+        column.id !== columnID);
+    }
+
     default:
       return state;
   }

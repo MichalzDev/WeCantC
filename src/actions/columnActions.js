@@ -27,3 +27,22 @@ export const sort = (
         }
     }
 }
+
+export const editColumnTitle = (columnID, newTitle) => {
+    return {
+      type: CONSTANTS.EDIT_COLUMN_TITLE,
+      payload: {
+        columnID,
+        newTitle
+      }
+    };
+  };
+
+export const deleteColumn = columnID => {
+    return {
+        type: CONSTANTS.DELETE_COLUMN,
+        payload: {
+            columnID
+        }
+    };
+};
