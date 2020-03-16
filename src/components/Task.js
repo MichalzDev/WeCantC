@@ -6,53 +6,75 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import Icon from "@material-ui/core/Icon";
 import Form from "./Form";
-import { editTask } from "../actions";
+import { editTask, deleteTask } from "../actions";
 import { connect } from "react-redux";
+import Button from "./Button";
 
-const TaskContainer = styled.div`
-  margin: 0 0 8px 0;
-  position: relative;
-`;
-
-const EditButton = styled(Icon)`
-  position: absolute;
-  display: none;
-  right: 5px;
-  top: 5px;
-  opacity: 0.5;
-  ${TaskContainer}:hover & {
-    display: block;
-    cursor: pointer;
-  }
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
-const Task = ({ content, id, columnID, index, dispatch }) => {
+const Task = React.memo(({ content, id, columnID, index, dispatch }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [taskContent, setTaskContent] = useState(content);
+
+  const TaskContainer = styled.div`
+    margin: 0 0 8px 0;
+    position: relative;
+    max-width: 100%;
+    word-wrap: break-word;
+  `;
+
+  const EditButton = styled(Icon)`
+    position: absolute;
+    display: none;
+    right: 5px;
+    top: 5px;
+    opacity: 0.5;
+    ${TaskContainer}:hover & {
+      display: block;
+      cursor: pointer;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+  `;
+
+  const DeleteButton = styled(Icon)`
+    position: absolute;
+    display: none;
+    right: 5px;
+    bottom: 5px;
+    opacity: 0.5;
+    ${TaskContainer}:hover & {
+      display: block;
+      cursor: pointer;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+  `;
 
   const closeForm = e => {
     console.log("clicked");
     setIsEditing(false);
   };
 
+  const handleChange = e => {
+    setTaskContent(e.target.value);
+  };
+
   const saveTask = e => {
-    // run redux action
     e.preventDefault();
     dispatch(editTask(id, columnID, taskContent));
     setIsEditing(false);
   };
 
+  const handleDeleteTask = e => {
+    dispatch(deleteTask(id, columnID));
+  };
+
   const renderEditForm = () => {
     return (
-      <Form
-        content={taskContent}
-        setContent={setTaskContent}
-        closeForm={closeForm}
-        actionButtonClicked={saveTask}
-      />
+      <Form content={taskContent} onChange={handleChange} closeForm={closeForm}>
+        <Button onClick={saveTask}>Save</Button>
+      </Form>
     );
   };
 
@@ -73,6 +95,9 @@ const Task = ({ content, id, columnID, index, dispatch }) => {
               >
                 edit
               </EditButton>
+              <DeleteButton fontSize="small" onMouseDown={handleDeleteTask}>
+                delete
+              </DeleteButton>
               <CardContent>
                 <Typography>{content}</Typography>
               </CardContent>
@@ -84,6 +109,6 @@ const Task = ({ content, id, columnID, index, dispatch }) => {
   };
 
   return isEditing ? renderEditForm() : renderTask();
-};
+});
 
 export default connect()(Task);

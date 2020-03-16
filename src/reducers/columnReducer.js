@@ -108,19 +108,31 @@ const columnReducer = (state = initialState, action) => {
       const { id, columnID, newContent } = action.payload;
       return state.map(column => {
         if (column.id === columnID) {
-          const newtasks = column.tasks.map(task => {
+          const newTasks = column.tasks.map(task => {
             if (task.id === id) {
               task.content = newContent;
               return task;
             }
             return task;
           });
-          return { ...column, tasks: newtasks };
+          return { ...column, tasks: newTasks };
         }
         return column;
       });
     }
 
+    case CONSTANTS.DELETE_TASK: {
+      const { id, columnID } = action.payload;
+      return state.map(column => {
+        if (column.id === columnID) {
+          const newTasks = column.tasks.filter(task => task.id !== id);
+          return { ...column, tasks: newTasks };
+        } else {
+          return column;
+        }
+      });
+    }
+    
     default:
       return state;
   }

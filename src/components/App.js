@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import Column from "./Column";
 import { connect } from "react-redux";
-import ActionButton from "./ActionButton";
+import Create from "./Create";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { sort } from "../actions";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ const ColumnsContainer = styled.div`
   flex-direction: row;
 `;
 
-class App extends Component {
+class App extends PureComponent {
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
 
@@ -54,7 +54,7 @@ class App extends Component {
                   />
                 ))}
                 {provided.placeholder}
-                <ActionButton addColumn />
+                <Create addColumn />
               </ColumnsContainer>
             )}
           </Droppable>

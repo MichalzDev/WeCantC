@@ -3,23 +3,15 @@ import styled from "styled-components";
 import Icon from "@material-ui/core/Icon";
 import Textarea from "react-textarea-autosize";
 import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
 
-const Form = props => {
-  const {
-    addColumn,
-    content = "",
-    setContent,
-    actionButtonClicked,
-    closeForm
-  } = props;
+const Form = React.memo(({ addColumn, content = "", onChange, closeForm, children}) => {
 
   const placeholder = addColumn
     ? "Enter column name..."
     : "Enter a task description...";
 
   const Container = styled.div`
-    width: ${addColumn ? "300px" : "100%"};
+    width: 300px;
     margin-bottom: 8px;
   `;
 
@@ -34,13 +26,6 @@ const Form = props => {
     overflow: hidden;
     outline: none;
     border: none;
-  `;
-
-  const StyledButton = styled(Button)`
-    && {
-      color: white;
-      background: #5aac44;
-    }
   `;
 
   const ButtonContainer = styled.div`
@@ -62,21 +47,16 @@ const Form = props => {
           placeholder={placeholder}
           autoFocus
           value={content}
-          onChange={e => setContent(e.target.value)}
+          onChange={e => onChange(e)}
           onBlur={closeForm}
         />
       </StyledCard>
       <ButtonContainer>
-        <StyledButton
-          variant="contained"
-          children="Save"
-          onMouseDown={actionButtonClicked}
-        />
-
+        {children}
         <StyledIcon onMouseDown={closeForm}>close</StyledIcon>
       </ButtonContainer>
     </Container>
   );
-};
+});
 
 export default Form;

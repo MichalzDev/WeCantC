@@ -1,6 +1,6 @@
 import React from "react";
 import Task from "./Task";
-import ActionButton from "./ActionButton";
+import Create from "./Create";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
@@ -20,7 +20,7 @@ const TitleContainer = styled.div`
   text-transform: uppercase;
 `;
 
-const ColumnList = ({ title, tasks, columnID, index, maxTasksNumber = 3 }) => {
+const ColumnList = React.memo(({ title, tasks, columnID, index, maxTasksNumber = 3 }) => {
   return (
     <Draggable draggableId={String(columnID)} index={index}>
       {provided => (
@@ -49,7 +49,7 @@ const ColumnList = ({ title, tasks, columnID, index, maxTasksNumber = 3 }) => {
                   />
                 ))}
                 {provided.placeholder}
-                <ActionButton columnID={columnID} />
+                <Create columnID={columnID} />
               </div>
             )}
           </Droppable>
@@ -57,6 +57,6 @@ const ColumnList = ({ title, tasks, columnID, index, maxTasksNumber = 3 }) => {
       )}
     </Draggable>
   );
-};
+});
 
 export default ColumnList;
