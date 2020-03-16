@@ -32,10 +32,9 @@ class App extends PureComponent {
   };
 
   render() {
-    const { columns } = this.props;
+    const { columns, columnOrder, tasks } = this.props;
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-        <div>
           <h2>Hello world</h2>
           <Droppable
             droppableId="all-columns"
@@ -44,28 +43,35 @@ class App extends PureComponent {
           >
             {provided => (
               <ColumnsContainer {...provided.droppableProps} ref={provided.innerRef}>
-                {columns.map((column, index) => (
-                  <Column
-                    columnID={column.id}
-                    key={column.id}
-                    title={column.title}
-                    tasks={column.tasks}
-                    index={index}
-                  />
-                ))}
+                {columnOrder.map((columnID, index) => {
+                  const column = columns[columnID];
+                  if (column) {
+                    const columnTasks = column.tasks.map(taskID => tasks[taskID]);
+                    return (
+                      <Column
+                      columnID={column.id}
+                      key={column.id}
+                      title={column.title}
+                      tasks={columnTasks}
+                      index={index}
+                      />
+                    );
+                  }
+                })}
                 {provided.placeholder}
                 <Create addColumn />
               </ColumnsContainer>
             )}
           </Droppable>
-        </div>
       </DragDropContext>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  columns: state.columns
+  columns: state.columns,
+  columnOrder: state.columnOrder,
+  tasks: state.tasks
 });
 
 export default connect(mapStateToProps)(App);

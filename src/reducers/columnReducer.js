@@ -1,41 +1,30 @@
 import { CONSTANTS } from "../actions";
 
-let columnID = 4;
-let taskID = 0;
+let columnID = 1;
+let taskID = 1;
 
-const initialState = [
-  {
-    id: `column-${0}`,
-    title: "Backlog",
-    tasks: []
-  },
-  {
-    id: `column-${1}`,
-    title: "To do",
-    tasks: []
-  },
-  {
-    id: `column-${2}`,
-    title: "In progress",
-    tasks: []
-  },
-  {
-    id: `column-${3}`,
-    title: "Done",
-    tasks: []
+const initialState = {
+  "column-0": {
+    title: "test",
+    id: `column-0`,
+    tasks: ["task-0"]
   }
-];
+};
 
 const columnReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CONSTANTS.ADD_COLUMN:
+    case CONSTANTS.ADD_COLUMN: {
       const newColumn = {
         title: action.payload,
+        id: `column-${columnID}`,
         tasks: [],
-        id: `column-${columnID}`
       };
+
+      const newState = { ...state, [`column-${columnID}`]: newColumn};
       columnID += 1;
-      return [...state, newColumn];
+
+      return newState;
+    }
 
     case CONSTANTS.ADD_TASK: {
       const newTask = {
