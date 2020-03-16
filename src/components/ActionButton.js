@@ -3,9 +3,9 @@ import Icon from "@material-ui/core/Icon";
 import Textarea from "react-textarea-autosize";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
-import { connect } from 'react-redux';
-import { addColumn, addTask } from '../actions';
-
+import { connect } from "react-redux";
+import { addColumn, addTask } from "../actions";
+import styled from "styled-components";
 
 class ActionButton extends React.Component {
   state = {
@@ -32,30 +32,30 @@ class ActionButton extends React.Component {
   };
 
   handleAddColumn = () => {
-    const {dispatch} = this.props;
-    const {content} = this.state;
+    const { dispatch } = this.props;
+    const { content } = this.state;
 
-    if(content) {
+    if (content) {
       this.setState({
         content: ""
-      })
-      dispatch(addColumn(content))
+      });
+      dispatch(addColumn(content));
     }
 
     return;
-  }
+  };
 
   handleAddTask = () => {
-    const {dispatch, columnID} = this.props;
-    const {content} = this.state;
+    const { dispatch, columnID } = this.props;
+    const { content } = this.state;
 
-    if(content) {
+    if (content) {
       this.setState({
         content: ""
-      })
-      dispatch(addTask(columnID, content))
+      });
+      dispatch(addTask(columnID, content));
     }
-  }
+  };
 
   renderAddButton = () => {
     const { addColumn } = this.props;
@@ -65,19 +65,26 @@ class ActionButton extends React.Component {
     const buttonOpacity = addColumn ? 1 : 0.5;
     const buttonBackground = addColumn ? "rgba(0,0,0,.15)" : "inherit";
 
+    const OpenFormButton = styled.div`
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 3px;
+      height: 36px;
+      margin-left: 8px;
+      width: 300px;
+      padding-left: 10px;
+      padding-right: 10px;
+      opacity: ${buttonOpacity};
+      color: ${textColor};
+      background-color: ${buttonBackground};
+    `;
+
     return (
-      <div
-        onClick={this.openForm}
-        style={{
-          ...styles.openFormButtonGroup,
-          opacity: buttonOpacity,
-          color: textColor,
-          backgroundColor: buttonBackground
-        }}
-      >
+      <OpenFormButton onClick={this.openForm}>
         <Icon>add</Icon>
-        <p>{buttonText}</p>
-      </div>
+        <p style={{ flexShrink: 0 }}>{buttonText}</p>
+      </OpenFormButton>
     );
   };
 
@@ -88,42 +95,63 @@ class ActionButton extends React.Component {
       ? "Enter a column name..."
       : "Enter a task description...";
     const buttonText = addColumn ? "Add column" : "Add task";
+
+    const Container = styled.div`
+      width: ${addColumn ? "300px" : "100%"};
+    `;
+
+    const StyledCard = styled(Card)`
+      min-height: 85px;
+      padding: 6px 8px 2px;
+    `;
+
+    const StyledTextArea = styled(Textarea)`
+      resize: none;
+      width: 100%;
+      overflow: hidden;
+      outline: none;
+      border: none;
+    `;
+
+    const StyledButton = styled(Button)`
+      && {
+        color: white;
+        background: #5aac44;
+      }
+    `;
+
+    const ButtonContainer = styled.div`
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      margin-left: 8px;
+    `;
+
+    const StyledIcon = styled(Icon)`
+      margin-left: 8px;
+      cursor: pointer;
+    `;
+
     return (
-      <div>
-        <Card
-          style={{
-            overflow: "visible",
-            minHeight: 80,
-            minWidth: 272,
-            padding: "6px 8px 2px"
-          }}
-        >
-          <Textarea
+      <Container>
+        <StyledCard>
+          <StyledTextArea
             placeholder={placeholder}
             autoFocus
             onBlur={this.closeForm}
             value={this.state.content}
             onChange={this.handleInputChange}
-            style={{
-              resize: "none",
-              width: "100%",
-              overflow: "hidden",
-              outline: "none",
-              border: "none"
-            }}
           />
-        </Card>
-        <div style={styles.formButtonGroup}>
-          <Button
+        </StyledCard>
+        <ButtonContainer>
+          <StyledButton
             onMouseDown={addColumn ? this.handleAddColumn : this.handleAddTask}
             variant="contained"
-            style={{ color: "white", backgroundColor: "#5aac44" }}
-          >
-            {buttonText}{" "}
-          </Button>
-          <Icon style={{ marginLeft: 8, cursor: "pointer"}}>close</Icon>
-        </div>
-      </div>
+            children={buttonText}
+          />
+          <StyledIcon onClick={this.closeForm}>close</StyledIcon>
+        </ButtonContainer>
+      </Container>
     );
   };
 
@@ -132,21 +160,4 @@ class ActionButton extends React.Component {
   }
 }
 
-const styles = {
-  openFormButtonGroup: {
-    display: "flex",
-    alignItems: "center",
-    cursor: "pointer",
-    borderRadius: 3,
-    height: 36,
-    width: 272,
-    paddingLeft: 10
-  },
-  formButtonGroup: {
-marginTop: 8,
-display: "flex",
-alignItems: "center"
-  }
-};
-
-export default connect () (ActionButton);
+export default connect()(ActionButton);
