@@ -6,6 +6,8 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import Icon from "@material-ui/core/Icon";
 import Form from "./Form";
+import { editTask } from "../actions";
+import { connect } from "react-redux";
 
 const TaskContainer = styled.div`
   margin: 0 0 8px 0;
@@ -27,7 +29,7 @@ const EditButton = styled(Icon)`
   }
 `;
 
-const Task = ({ content, id, index }) => {
+const Task = ({ content, id, columnID, index, dispatch }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [taskContent, setTaskContent] = useState(content);
 
@@ -36,8 +38,11 @@ const Task = ({ content, id, index }) => {
     setIsEditing(false);
   };
 
-  const saveTask = () => {
+  const saveTask = e => {
     // run redux action
+    e.preventDefault();
+    dispatch(editTask(id, columnID, taskContent));
+    setIsEditing(false);
   };
 
   const renderEditForm = () => {
@@ -62,7 +67,12 @@ const Task = ({ content, id, index }) => {
             onDoubleClick={() => setIsEditing(true)}
           >
             <Card>
-              <EditButton fontSize="small">edit</EditButton>
+              <EditButton
+                fontSize="small"
+                onMouseDown={() => setIsEditing(true)}
+              >
+                edit
+              </EditButton>
               <CardContent>
                 <Typography>{content}</Typography>
               </CardContent>
@@ -76,4 +86,4 @@ const Task = ({ content, id, index }) => {
   return isEditing ? renderEditForm() : renderTask();
 };
 
-export default Task;
+export default connect()(Task);

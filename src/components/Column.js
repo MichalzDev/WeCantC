@@ -45,6 +45,7 @@ const ColumnList = ({ title, tasks, columnID, index, maxTasksNumber = 3 }) => {
                     index={index}
                     key={task.id}
                     content={task.content}
+                    columnID={columnID}
                   />
                 ))}
                 {provided.placeholder}

@@ -92,7 +92,7 @@ const columnReducer = (state = initialState, action) => {
           column => droppableIdStart === column.id
         );
 
-        // pull out the card from this column
+        // pull out the task from this column
         const task = columnStart.tasks.splice(droppableIndexStart, 1);
 
         // find the column where drag ended
@@ -103,6 +103,23 @@ const columnReducer = (state = initialState, action) => {
       }
 
       return newState;
+
+    case CONSTANTS.EDIT_TASK: {
+      const { id, columnID, newContent } = action.payload;
+      return state.map(column => {
+        if (column.id === columnID) {
+          const newtasks = column.tasks.map(task => {
+            if (task.id === id) {
+              task.content = newContent;
+              return task;
+            }
+            return task;
+          });
+          return { ...column, tasks: newtasks };
+        }
+        return column;
+      });
+    }
 
     default:
       return state;

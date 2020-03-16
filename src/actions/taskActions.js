@@ -6,3 +6,10 @@ export const addTask = (columnID, content) => {
         payload: {content, columnID}
     }
 }
+
+export const editTask = (id, columnID, newContent) => {
+    return {
+      type: CONSTANTS.EDIT_TASK,
+      payload: { id, columnID, newContent }
+    };
+  };

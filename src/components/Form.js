@@ -6,7 +6,13 @@ import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 
 const Form = props => {
-  const { addColumn, content = "", setContent, actionButtonClicked, closeForm } = props;
+  const {
+    addColumn,
+    content = "",
+    setContent,
+    actionButtonClicked,
+    closeForm
+  } = props;
 
   const placeholder = addColumn
     ? "Enter column name..."
@@ -61,7 +67,11 @@ const Form = props => {
         />
       </StyledCard>
       <ButtonContainer>
-        <StyledButton variant="contained" children="Save" />
+        <StyledButton
+          variant="contained"
+          children="Save"
+          onMouseDown={actionButtonClicked}
+        />
 
         <StyledIcon onMouseDown={closeForm}>close</StyledIcon>
       </ButtonContainer>
