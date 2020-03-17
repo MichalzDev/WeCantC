@@ -35,17 +35,14 @@ const StyledIcon = styled(Icon)`
 `;
 
 const Form = React.memo(
-  ({ addColumn, content = "", onChange, closeForm, children }) => {
-    const placeholder = addColumn
-      ? "Enter column name..."
-      : "Enter a task description...";
+  ({ placeholder, content = "", onChange, closeForm, children }) => {
 
     return (
       <Container>
         <StyledCard>
           <StyledTextArea
-            placeholder={placeholder}
             autoFocus
+            placeholder={placeholder}
             value={content}
             onChange={e => onChange(e)}
             onBlur={closeForm}

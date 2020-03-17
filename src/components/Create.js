@@ -7,7 +7,7 @@ import styled from "styled-components";
 import Form from "./Form";
 import OpenForm from "./OpenForm";
 
-class TrelloCreate extends React.PureComponent {
+class Create extends React.PureComponent {
   state = {
     formOpen: false,
     content: ""
@@ -91,9 +91,13 @@ class TrelloCreate extends React.PureComponent {
   render() {
     const { content } = this.state;
     const { addColumn } = this.props;
+    const placeholder = addColumn
+    ? "Enter a column name..."
+    : "Enter a task description...";
     return this.state.formOpen ? (
       <Form
         content={content}
+        placeholder={placeholder}
         onChange={this.handleInputChange}
         closeForm={this.closeForm}
       >
@@ -109,4 +113,4 @@ class TrelloCreate extends React.PureComponent {
   }
 }
 
-export default connect()(TrelloCreate);
+export default connect()(Create);
