@@ -17,7 +17,6 @@ const columnStyle = {
 const buttonStyle = {
     backgroundColor: '#4CAF50',
     border: 'none',
-    color: 'white',
     padding: '15px 32px',
     textAlign: 'center',
     textDecoration: 'none',
@@ -68,7 +67,7 @@ const Task = props => (
         <div style={btnbox}>
             {/* Link does not refresh browser */}
             <Link to={"/edit/"+props.task._id} style={btn}><i className="fa fa-pencil"></i></Link>
-            <Link to="/" onClick={() => { props.deleteTask(props.task._id) }} style={btn}><i className="fa fa-trash"></i></Link>
+            <Link to="/" onClick={(task) => { task.deleteTask(props.task._id) }} style={btn}><i className="fa fa-trash"></i></Link>
         </div>
     </div>
 )

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Modal from 'react-modal'
 
 
-export default class AddTaskModal extends Component {
+export default class EditTaskModal extends Component {
   constructor(props){
     super(props);
 
@@ -23,11 +23,22 @@ export default class AddTaskModal extends Component {
     }
   }
 componentDidMount(){
+  axios.get('http://localhost:5000/tasks/'+this.props.match.params.id)
+      .then(res => {
+        this.setState({
+          name: res.data.name,
+          description: res.data.description,
+          status: res.data.status,
+          user: res.data.user,
+        })   
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
   axios.get('http://localhost:5000/users/').then(res => {
     if (res.data.length > 0) {
       this.setState({
         users: res.data.map(us => us.name),
-        user: res.data[0].name,
       })
     }
   })
@@ -35,7 +46,6 @@ componentDidMount(){
     if (res.data.length > 0) {
       this.setState({
         columns: res.data.map(col => col.status),
-        status: res.data[0].status,
       })
     }
   })
@@ -76,9 +86,9 @@ componentDidMount(){
 
     console.log(this.state.users[0]);
     console.log(task);
-    axios.post('http://localhost:5000/tasks/add', task)
+    axios.post('http://localhost:5000/tasks/update/'+ this.props.match.params.id, task)
     .then(res => console.log(res.data));
-    alert("Task added");
+    alert("Task edited");
     window.location = '/';
   }
 
@@ -87,7 +97,7 @@ componentDidMount(){
     return (
       <Modal isOpen={true}>
     <div>
-      <h3>Create new task</h3>
+      <h3>Edit task</h3>
         <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <label>Task name</label>
@@ -120,7 +130,7 @@ componentDidMount(){
               </select>
             </div >
           <div className="form-group">
-            <input type="submit" value="create task" className="btn btn-primary"/>
+            <input type="submit" value="Save" className="btn btn-primary"/>
             <a href="/" className='btn btn-danger'>Close</a>
           </div>
       </form>
