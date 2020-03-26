@@ -76,7 +76,7 @@ componentDidMount(){
 
     console.log(this.state.users[0]);
     console.log(task);
-    axios.post('http://localhost:8080/tasks/add', task)
+    axios.post('http://localhost:8081/tasks/add', task)
     .then(res => console.log(res.data));
     alert("Task added");
     window.location = '/';
