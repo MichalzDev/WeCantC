@@ -23,7 +23,7 @@ export default class AddTaskModal extends Component {
     }
   }
 componentDidMount(){
-  axios.get('http://localhost:8081/users/').then(res => {
+  axios.get('http://localhost:8080/users/').then(res => {
     if (res.data.length > 0) {
       this.setState({
         users: res.data.map(us => us.name),
@@ -31,7 +31,7 @@ componentDidMount(){
       })
     }
   })
-  axios.get('http://localhost:8081/columns/').then(res => {
+  axios.get('http://localhost:8080/columns/').then(res => {
     if (res.data.length > 0) {
       this.setState({
         columns: res.data.map(col => col.status),
@@ -76,7 +76,7 @@ componentDidMount(){
 
     console.log(this.state.users[0]);
     console.log(task);
-    axios.post('http://localhost:8081/tasks/add', task)
+    axios.post('http://localhost:8080/tasks/add', task)
     .then(res => console.log(res.data));
     alert("Task added");
     window.location = '/';
