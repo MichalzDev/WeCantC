@@ -7,6 +7,15 @@ export default class AddTaskModal extends Component {
   constructor(props){
     super(props);
 
+    this.onChangeNaimport React, { Component } from 'react';
+import axios from 'axios';
+import Modal from 'react-modal'
+
+
+export default class AddTaskModal extends Component {
+  constructor(props){
+    super(props);
+
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.onChangeStatus = this.onChangeStatus.bind(this);
@@ -27,7 +36,7 @@ componentDidMount(){
     if (res.data.length > 0) {
       this.setState({
         users: res.data.map(us => us.name),
-        user: res.data[0].user,
+        user: res.data[0].name,
       })
     }
   })
