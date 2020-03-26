@@ -106,8 +106,8 @@ export default class ListALL extends Component {
 
     componentDidMount() {
        Axios.all([
-           Axios.get('http://localhost:5000/tasks/'),
-           Axios.get('http://localhost:5000/columns/'),
+           Axios.get('http://localhost:8081/tasks/'),
+           Axios.get('http://localhost:8081/columns/'),
        ]).then(Axios.spread((tasksRes, columnsRes) => {
            this.setState({ tasks: tasksRes.data});
            this.setState({ columns: columnsRes.data});
@@ -116,7 +116,7 @@ export default class ListALL extends Component {
 }
 
     deleteTask(id){
-        Axios.delete('http://localhost:5000/tasks/'+id)
+        Axios.delete('http://localhost:8081/tasks/'+id)
         .then(response => {console.log(response.data)});
 
         this.setState({
