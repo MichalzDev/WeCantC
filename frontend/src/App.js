@@ -14,15 +14,12 @@ function App() {
     <Router>
       <div className="App">
         {/* <AddTaskModal></AddTaskModal> */}
-      <Route path="/tasks/add" exact component={AddTaskModal}/> 
+      <AddTaskModal/>
       <Route path="/tasks/update/:id" exact component={EditTaskModal}/> 
         <div className="columnbox">
-        {/* <Route path="/" exact component={ShowColumns}/> */}
         <Route path="/" exact component={ListALL}/> 
-         {/* <ShowColumns></ShowColumns>  */}
       
 
-      {/* <Route path="/edit/:id" exact component={EditTask}/> */}
    
       </div>
     </div>

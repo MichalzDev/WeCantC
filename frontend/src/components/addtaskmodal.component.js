@@ -13,6 +13,9 @@ export default class AddTaskModal extends Component {
     this.onChangeUser = this.onChangeUser.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
     this.state = {
       name: '',
       description: '',
@@ -20,10 +23,11 @@ export default class AddTaskModal extends Component {
       user:'',
       columns: [],
       users: [],
+      show: true,
     }
   }
 componentDidMount(){
-  axios.get('http://localhost:5000/users/').then(res => {
+  axios.get('/users/').then(res => {
     if (res.data.length > 0) {
       this.setState({
         users: res.data.map(us => us.name),
@@ -31,7 +35,7 @@ componentDidMount(){
       })
     }
   })
-  axios.get('http://localhost:5000/columns/').then(res => {
+  axios.get('/columns/').then(res => {
     if (res.data.length > 0) {
       this.setState({
         columns: res.data.map(col => col.status),
@@ -62,11 +66,19 @@ componentDidMount(){
       user: e.target.value
     });
   }
+  //Modal show/hide
+  handleShow() {
+    this.setState({show: true});
+  }
+  handleClose() {
+    this.setState({show: false});
+  }
+
   //Send values
 
   onSubmit(e){
     e.preventDefault();
-
+    
     const task = {
       name: this.state.name,
       description: this.state.description,
@@ -76,7 +88,7 @@ componentDidMount(){
 
     console.log(this.state.users[0]);
     console.log(task);
-    axios.post('http://localhost:5000/tasks/add', task)
+    axios.post('/tasks/add/', task)
     .then(res => console.log(res.data));
     alert("Task added");
     window.location = '/';
@@ -85,7 +97,7 @@ componentDidMount(){
 
   render() {
     return (
-      <Modal isOpen={true}>
+      <Modal isOpen={this.state.show}>
     <div>
       <h3>Create new task</h3>
         <form onSubmit={this.onSubmit}>
@@ -121,7 +133,7 @@ componentDidMount(){
             </div >
           <div className="form-group">
             <input type="submit" value="create task" className="btn btn-primary"/>
-            <a href="/" className='btn btn-danger'>Close</a>
+            <input type="button" onClick={this.handleClose} value="close" className="btn btn-danger"/>
           </div>
       </form>
     </div>

@@ -23,7 +23,7 @@ export default class EditTaskModal extends Component {
     }
   }
 componentDidMount(){
-  axios.get('http://localhost:5000/tasks/'+this.props.match.params.id)
+  axios.get('/tasks/'+this.props.match.params.id)
       .then(res => {
         this.setState({
           name: res.data.name,
@@ -35,14 +35,14 @@ componentDidMount(){
       .catch(function (error) {
         console.log(error);
       })
-  axios.get('http://localhost:5000/users/').then(res => {
+  axios.get('/users/').then(res => {
     if (res.data.length > 0) {
       this.setState({
         users: res.data.map(us => us.name),
       })
     }
   })
-  axios.get('http://localhost:5000/columns/').then(res => {
+  axios.get('/columns/').then(res => {
     if (res.data.length > 0) {
       this.setState({
         columns: res.data.map(col => col.status),
@@ -86,7 +86,7 @@ componentDidMount(){
 
     console.log(this.state.users[0]);
     console.log(task);
-    axios.post('http://localhost:5000/tasks/update/'+ this.props.match.params.id, task)
+    axios.post('/tasks/update/'+ this.props.match.params.id, task)
     .then(res => console.log(res.data));
     alert("Task edited");
     window.location = '/';
