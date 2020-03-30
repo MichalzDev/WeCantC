@@ -12,8 +12,8 @@ var mongoose = require('mongoose');
 
 require('dotenv').config();
 
+var port = process.env.HTTP_PORT || 5000;
 var app = express();
-var port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(express["static"](_path["default"].join(__dirname, 'frontend', 'build')));
