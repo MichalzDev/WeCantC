@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
-var resC;
 var resT;
-var fullMap;
 
 const columnStyle = {
   border: "2px solid orange",
@@ -82,6 +82,7 @@ export default class ListALL extends Component {
     super(props);
     window.func = this;
     this.deleteTask = this.deleteTask.bind(this);
+    this.submit = this.submit.bind(this);
     this.state = {
       tasks: [],
       columns: [],
@@ -110,7 +111,25 @@ export default class ListALL extends Component {
       tasks: this.state.tasks.filter(el => el._id !== id)
     });
   }
-  
+
+  submit(id) {
+    confirmAlert({
+      title: 'UWAGA!',
+      message: 'Czy na pewno chcesz usunac tego taska?',
+      buttons: [
+        {
+          label: 'Tak',
+          onClick: () => this.deleteTask(id)
+        },
+        {
+          label: 'NIE',
+          onClick: () => {return null}
+        }
+      ],
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+    });
+  };
 
   renderALLv2() {
     let countArr = [];
@@ -162,7 +181,7 @@ function renderTaskIfMatch(tsk, col) {
         <Link
           to="/"
           onClick={() => {
-            window.func.deleteTask(props.task._id)
+            window.func.submit(props.task._id);
           }}
           style={btn}
         >
