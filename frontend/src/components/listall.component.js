@@ -29,6 +29,18 @@ const buttonStyle = {
   marginBottom: "18px",
   cursor: "pointer"
 };
+const buttonStyleRed = {
+  backgroundColor: "red",
+  border: "none",
+  borderRadius: "5px",
+  color: "white",
+  padding: "15px 26px",
+  textAlign: "center",
+  textDecoration: "none",
+  display: "inline-block",
+  fontSize: "18px",
+  marginBottom: "18px",
+};
 const columnboxStyle = {
   backgroundColor: "#282c34",
   minHeight: "100vh",
@@ -98,11 +110,21 @@ export default class ListALL extends Component {
       tasks: this.state.tasks.filter(el => el._id !== id)
     });
   }
+  
 
   renderALLv2() {
+    let countArr = [];
+    let count = 0;
     resT = this.state.tasks;
-    return this.state.columns.map(col => {
-      return <Column column={col} key={col._id} />;
+    this.state.columns.forEach(col => {
+      count = 0;
+      resT.forEach(task => {
+      col.status === task.status ? count++ : console.log(count)
+      })
+      countArr.push(count);
+    }) 
+    return this.state.columns.map((col, index) => {
+      return <Column column={col} limit={col.limit - countArr[index]} key={col._id} />;
     });
   }
   render() {
@@ -110,10 +132,9 @@ export default class ListALL extends Component {
   }
 }
 
-
 function renderTaskIfMatch(tsk, col) {
     return tsk.map(el => {
-      return el.status === col ? (
+      return el.status === col.column.status ? (
         <Task task={el} key={el._id} />
       ) : (
         console.log("task not equal column")
@@ -156,11 +177,15 @@ function renderTaskIfMatch(tsk, col) {
   const Column = props => (
     <div style={columnStyle}>
       <div>
-        <h2 style={statusStyle}>{props.column.status}</h2>
-        <a href="/tasks/add" style={buttonStyle}>
-          Add task
-        </a>
+        {props.limit > 0 ? <h6>{props.limit}</h6> : <h6 style={{color: 'red'}}>TASK LIMIT EXCEEDED!</h6>}
       </div>
-      {renderTaskIfMatch(resT, props.column.status)}
+      <div>
+        <h2 style={statusStyle}>{props.column.status}</h2>
+        {props.limit > 0 ? 
+        <a href="/tasks/add" style={buttonStyle}>Add task</a> :
+        <p style={buttonStyleRed}>LIMIT EXCEEDED!</p>
+        }
+      </div>
+      {renderTaskIfMatch(resT, props)}
     </div>
   );
